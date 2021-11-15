@@ -18,6 +18,7 @@ function handleOnSubmit(){
 	variableCounter++;
 	v1 = new Variable(variableName, '');
 }
+$:debugMessage = JSON.stringify(variableArray);
 </script>
 
 <main>
@@ -37,7 +38,7 @@ function handleOnSubmit(){
 	</h3>
 	<hr/>
 
-	<p>Variable Array: {JSON.stringify(variableArray)} </p>
+	<p>Variable Array: {debugMessage} </p>
 </main>
 
 <style>
