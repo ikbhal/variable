@@ -13,10 +13,13 @@ class Variable {
 }
 let variableArray = [];
 let variableStore = writable([]);
+let searchResultStore = writable([]);
 let variableCounter = 1;
 let operation = 1; // 1 add, 2 edit
 let editIndex = 0;
 let  v1  = new Variable('v1', variableCounter);
+let searchText = '';
+let svar = new Variable('not found', 'no value');
 function handleOnSubmit(){
 	console.log("inside handleOnSubmit");
 
@@ -48,11 +51,59 @@ function editVariable(index){
 	let variableStoreCopy = [... $variableStore];
 	v1 = variableStoreCopy[index];
 }
+
+function handleSearchKeyPress(){
+	console.log("Inside handle search key press");
+	console.log("searchText:", searchText);
+	if(searchText.trim() == ""){
+		$searchResultStore = [];
+		svar = new Variable('not found', 'no value');
+		return;
+	}
+	let variableStoreCopy = [... $variableStore];
+	console.log("variablestore copy: ", variableStoreCopy);
+	let searchResult = variableStoreCopy.filter(v => {
+		// console.log("searchText: ", searchText, "; v is ", v);
+		return v.name.toUpperCase().includes(searchText.toUpperCase());
+		}
+		// v.name.toUpperCase().contains(searchText.toUpperCase())
+	);
+	console.log("inside search result: ", searchResult);
+	if(searchResult && searchResult.length>0){
+		svar = searchResult[0];
+		$searchResultStore = [...searchResult];
+	}
+}
+
+function selectSearchVar(index){
+	console.log("inside selectSearchVar index:", index);
+	let searchResultStoreCopy = [... $searchResultStore];
+	svar = searchResultStoreCopy[index];
+}
 </script>
 
 <main>
 	<h1>Variable</h1>
 	<p>Add variable , get variable, edit variable, delete variable , list, search </p>
+
+	<h3>Search Variable</h3>
+	<form on:submit|preventDefault={handleSearchKeyPress}>
+		<input type="text" autocomplete="off" 
+			bind:value={searchText}	
+			name="searchText" 
+			on:keyup={handleSearchKeyPress}>
+
+		<p>Suggestions</p>
+		<div class="searchResults">
+			{#each $searchResultStore as searchVar, index}
+			<div class="searchResultVar">
+				<p on:click={() => selectSearchVar(index)}>{searchVar.name}</p>
+			</div>
+			{/each}
+		</div>
+	</form>
+	<p>Search Match: {svar.name} {svar.value}</p>
+	<hr/>
 	<h3>Add Variable</h3>
 	<form on:submit|preventDefault={handleOnSubmit}>
 		<label for="name">Name:</label><br>
@@ -76,4 +127,13 @@ function editVariable(index){
 </main>
 
 <style>
+.searchResults {
+	/* height:50px; */
+	width: 100px;
+	overflow: auto;
+	border: 1px solid grey;
+	border-radius: 5px;
+	padding: 5px;
+	margin: 5px;
+}
 </style>
