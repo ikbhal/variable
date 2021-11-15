@@ -80,12 +80,28 @@ function selectSearchVar(index){
 	let searchResultStoreCopy = [... $searchResultStore];
 	svar = searchResultStoreCopy[index];
 }
+function saveVariables(){
+	console.log("save variables");
+	let variableStoreCopy = [... $variableStore];
+	localStorage.setItem("variable", JSON.stringify(variableStoreCopy));
+}
+
+function loadVariables() {
+	console.log("load variables");
+	let variableJson = localStorage.getItem("variable", "[]");
+	console.log("variableJson ", variableJson);
+	let variableStoreCopy = JSON.parse(variableJson);
+	console.log("variablestore copy" , variableStoreCopy);
+	$variableStore = [... variableStoreCopy];
+}
 </script>
 
 <main>
 	<h1>Variable</h1>
 	<p>Add variable , get variable, edit variable, delete variable , list, search </p>
 
+	<button type="button" on:click={saveVariables}>Save</button> 
+	<button type="button" on:click={loadVariables}>Load</button>
 	<h3>Search Variable</h3>
 	<form on:submit|preventDefault={handleSearchKeyPress}>
 		<input type="text" autocomplete="off" 
