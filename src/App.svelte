@@ -1,4 +1,5 @@
 <script>
+let name = 'Salma';
 </script>
 
 <main>
@@ -12,7 +13,8 @@
 		<input type="text" id="lname" name="lname"><br>
       	<input type="submit" value="Submit">
 	</form>
-
+	<hr/>
+	<p>Hi {name}, How are you?</p>
 </main>
 
 <style>
