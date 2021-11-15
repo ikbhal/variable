@@ -1,5 +1,7 @@
 <script>
 let name = 'Salma';
+let variableName = '';
+let variableValue = '';
 </script>
 
 <main>
@@ -8,13 +10,11 @@ let name = 'Salma';
 	<h3>Add Variable</h3>
 	<form>
 		<label for="name">Name:</label><br>
-		<input type="text" id="fname" name="fname"><br>
+		<input type="text" id="variableName" name="variableName" bind:value={variableName}><br>
 		<label for="value">Value:</label><br>
-		<input type="text" id="lname" name="lname"><br>
+		<input type="text" id="variableValue" name="variableValue" bind:value={variableValue}><br>
       	<input type="submit" value="Submit">
 	</form>
-	<hr/>
-	<p>Hi {name}, How are you?</p>
 </main>
 
 <style>
